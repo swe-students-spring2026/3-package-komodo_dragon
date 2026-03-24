@@ -1,5 +1,6 @@
 import pytest
 from snackoracle import recommend_snack
+from snackoracle import snack_prophecy
 '''
  Testing for Recommend Snack Tests Bellow
 '''
