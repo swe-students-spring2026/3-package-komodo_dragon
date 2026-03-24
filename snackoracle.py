@@ -6,8 +6,8 @@ def recommend_snack(mood, crunch_level):
     Recomends a snack based on mood and crunch
     
     Enter as params 
-    crunch (int) 1-10 crunch level 10 is most crunchy
-    mood (str) : happy sad stressed sleepy bored
+    crunch int 1-10 crunch level 10 is most crunchy
+    mood string : happy sad stressed sleepy bored
               
     returns a snack recomendation as a string       
 
@@ -86,8 +86,8 @@ def snack_prophecy(day, hunger_level):
     day = day.strip().lower()
 
     valid_days = {
-    "monday", "tuesday", "wednesday",
-    "thursday", "friday", "saturday", "sunday"
+        "monday", "tuesday", "wednesday",
+        "thursday", "friday", "saturday", "sunday"
     }
     if day not in valid_days:
         raise ValueError("day must be a valid day of the week")
@@ -100,12 +100,12 @@ def snack_prophecy(day, hunger_level):
         hunger_message = "The oracle foresees a feast-level craving approaching fast."
 
     day_prophecies = {
-    "monday": "Beware the bland pantry. Seek flavor boldly.",
-    "tuesday": "Crunch and destiny walk together today.",
-    "wednesday": "Midweek wisdom points toward something cheesy.",
-    "thursday": "A salty blessing is on the horizon.",
-    "friday": "Joy arrives in the form of an elite snack.",
-    "saturday": "Today is ruled by indulgence and extra portions.",
-    "sunday": "Comfort food energy surrounds you.",
+        "monday": "Beware the bland pantry. Seek flavor boldly.",
+        "tuesday": "Crunch and destiny walk together today.",
+        "wednesday": "Midweek wisdom points toward something cheesy.",
+        "thursday": "A salty blessing is on the horizon.",
+        "friday": "Joy arrives in the form of an elite snack.",
+        "saturday": "Today is ruled by indulgence and extra portions.",
+        "sunday": "Comfort food energy surrounds you.",
     }
     return f"{day.capitalize()} prophecy: {day_prophecies[day]} {hunger_message}"
