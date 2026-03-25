@@ -24,6 +24,14 @@ def drink_pairing(snack, temperature):
     if not snack:
         raise ValueError("snack must not be empty")
 
+    snack_aliases = {
+        "chip": "chips",
+        "cookie": "cookies",
+        "cracker": "crackers",
+        "donut": "donuts",
+    }
+    snack = snack_aliases.get(snack, snack)
+
     temperature_aliases = {
         "hot": "hot",
         "warm": "hot",
@@ -45,6 +53,9 @@ def drink_pairing(snack, temperature):
         "pretzels": {"hot": "spiced cider", "cold": "lemonade"},
         "brownie": {"hot": "coffee", "cold": "vanilla milkshake"},
         "crackers": {"hot": "herbal tea", "cold": "sparkling water"},
+        "donuts": {"hot": "spiced latte", "cold": "iced coffee"},
+        "nachos": {"hot": "horchata latte", "cold": "lime soda"},
+        "muffins": {"hot": "cappuccino", "cold": "cold brew"},
         "pizza": {"hot": "black tea", "cold": "soda"},
     }
 
@@ -54,7 +65,9 @@ def drink_pairing(snack, temperature):
 
     normalized_temperature = temperature_aliases[temperature]
     drink = pairings[snack][normalized_temperature]
+    snack_style = "sweet" if snack in {"cookies", "brownie", "donuts", "muffins"} else "savory"
     return (
         f"The Snack Oracle pairs {snack} with {drink} "
-        f"when the drink should be {normalized_temperature}."
+        f"when the drink should be {normalized_temperature}. "
+        f"It is a {snack_style} match."
     )

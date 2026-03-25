@@ -29,7 +29,7 @@ def test_drink_pairing_alternate_supported_snack():
 
 def test_drink_pairing_invalid_snack():
     with pytest.raises(ValueError):
-        drink_pairing("nachos", "cold")
+        drink_pairing("broccoli", "cold")
 
 
 def test_drink_pairing_invalid_temperature():
@@ -50,3 +50,27 @@ def test_drink_pairing_invalid_snack_type():
 def test_drink_pairing_invalid_temperature_type():
     with pytest.raises(TypeError):
         drink_pairing("cookies", 42)
+
+
+def test_drink_pairing_accepts_snack_alias():
+    result = drink_pairing("cookie", "cool")
+
+    assert "cookies" in result.lower()
+    assert "cold milk" in result.lower()
+    assert "sweet match" in result.lower()
+
+
+def test_drink_pairing_supports_donuts():
+    result = drink_pairing("donuts", "hot")
+
+    assert "donuts" in result.lower()
+    assert "spiced latte" in result.lower()
+    assert "sweet match" in result.lower()
+
+
+def test_drink_pairing_supports_nachos():
+    result = drink_pairing("nachos", "cold")
+
+    assert "nachos" in result.lower()
+    assert "lime soda" in result.lower()
+    assert "savory match" in result.lower()
