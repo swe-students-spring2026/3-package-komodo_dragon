@@ -1,6 +1,8 @@
 import pytest
 from snackoracle import recommend_snack
 from snackoracle import snack_prophecy
+from snackoracle import snack_vibe, calorie_denial, snack_compatibility
+
 '''
  Testing for Recommend Snack Tests Bellow
 '''
@@ -83,3 +85,31 @@ def test_snack_prophecy_wrong_day_type():
 def test_snack_prophecy_wrong_hunger_type():
     with pytest.raises(TypeError):
         snack_prophecy("monday", "high")
+
+"""
+    Testing for snack vibe 
+"""
+def test_snack_vibe():
+    assert "cookies" in snack_vibe("rainy", "sad")
+    assert "ice cream" in snack_vibe("sunny", "happy")
+    with pytest.raises(ValueError):
+        snack_vibe("stormy", "happy")
+
+"""
+    Testing for calorie denial 
+"""
+def test_calorie_denial():
+    result = calorie_denial("chips", 3)
+    assert "chips" in result
+    assert "we're still okay" in result
+
+    with pytest.raises(ValueError):
+        calorie_denial("chips", 0)
+
+"""
+    Testing for snack compatibility 
+"""
+def test_snack_compatibility():
+    assert "Perfect" in snack_compatibility("chips", "chips")
+    assert "Great pairing" in snack_compatibility("chips", "dip")
+    assert isinstance(snack_compatibility("chips", "cookies"), str)
