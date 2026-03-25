@@ -1,3 +1,4 @@
+import hashlib
 import random
 
 
@@ -184,3 +185,96 @@ def snack_compatibility(snack1, snack2):
         return "Great pairing 🔥"
 
     return "Unusual combo 🤔"
+
+"""
+Estimate a late-night "snack risk" score based on how long you've been awake
+and how strong your self-control is.
+"""
+
+# hours_awake (int): Number of hours the user has been awake (0-24).
+# self_control (int): Self-control level (1-10). Higher means more control.
+
+def midnight_snack_risk(hours_awake, self_control):
+
+    if not isinstance(hours_awake, int):
+        raise TypeError("hours_awake must be an integer")
+    if not isinstance(self_control, int):
+        raise TypeError("self_control must be an integer")
+
+    if hours_awake < 0 or hours_awake > 24:
+        raise ValueError("hours_awake must be between 0 and 24")
+    if self_control < 1 or self_control > 10:
+        raise ValueError("self_control must be between 1 and 10")
+
+    # Higher self-control reduces the risk and more awake hours increases it.
+    score = hours_awake * (11 - self_control)
+
+    if score <= 15:
+        risk_label = "Low"
+        advice = "You are running on willpower and vibes."
+    elif score <= 35:
+        risk_label = "Moderate"
+        advice = "Proceed carefully; keep water nearby."
+    elif score <= 60:
+        risk_label = "High"
+        advice = "Your cravings have momentum. Choose wisely."
+    else:
+        risk_label = "Critical"
+        advice = "Midnight snack emergency. Set a snack plan now."
+
+    return (f"Midnight Snack Risk: {risk_label}. ")
+
+"""
+Reads user's aura based on their current emotion and favorite flavor
+and returns a snack energy message.
+"""
+# current_emotion (str): happy, sad, stressed, sleepy, bored.
+# favorite_flavor (str): The snack flavor the user loves.
+
+def snack_aura_reading(current_emotion, favorite_flavor):
+
+    if not isinstance(current_emotion, str):
+        raise TypeError("current_emotion must be a string")
+    if not isinstance(favorite_flavor, str):
+        raise TypeError("favorite_flavor must be a string")
+
+    emotion = current_emotion.strip().lower()
+    flavor = favorite_flavor.strip()
+    if not emotion:
+        raise ValueError("current_emotion must not be empty")
+    if not flavor:
+        raise ValueError("favorite_flavor must not be empty")
+
+    emotion_map = {
+        "happy": {"descriptor": "radiant", "aura_word": "sunbeam yellow"},
+        "sad": {"descriptor": "tender", "aura_word": "deep indigo"},
+        "stressed": {"descriptor": "chaotic", "aura_word": "neon orange"},
+        "sleepy": {"descriptor": "foggy", "aura_word": "lilac mist"},
+        "bored": {"descriptor": "mischievous", "aura_word": "sparkly teal"},
+    }
+    if emotion not in emotion_map:
+        valid = ", ".join(emotion_map.keys())
+        raise ValueError(f"Invalid current_emotion. Choose from: {valid}")
+
+    #Get an index from the flavor text.
+    digest = hashlib.md5(flavor.lower().encode("utf-8")).hexdigest()
+    idx = int(digest[:8], 16)
+
+    energy_options = [
+        "focus fizz",
+        "comfort current",
+        "confidence crunch",
+        "calm constellation",
+        "joy spark",
+        "spice ignition",
+    ]
+    energy = energy_options[idx % len(energy_options)]
+
+    aura_descriptor = emotion_map[emotion]["descriptor"]
+    aura_word = emotion_map[emotion]["aura_word"]
+
+    return (
+        f"Your aura is {aura_descriptor} {aura_word} today. "
+        f"You must consume {flavor}"
+        f"Snack energy assigned: {energy}."
+    )
