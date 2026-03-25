@@ -1,7 +1,7 @@
 import pytest
 from snackoracle import recommend_snack
 from snackoracle import snack_prophecy
-from snackoracle import snack_vibe, calorie_denial, snack_compatibility
+from snackoracle import snack_vibe, calorie_denial, snack_compatibility, midnight_snack_risk, snack_aura_reading
 
 '''
  Testing for Recommend Snack Tests Bellow
@@ -113,3 +113,59 @@ def test_snack_compatibility():
     assert "Perfect" in snack_compatibility("chips", "chips")
     assert "Great pairing" in snack_compatibility("chips", "dip")
     assert isinstance(snack_compatibility("chips", "cookies"), str)
+
+
+"""
+Testing for midnight_snack_risk
+"""
+
+
+def test_midnight_snack_risk_low():
+    result = midnight_snack_risk(hours_awake=1, self_control=10)
+    assert isinstance(result, str)
+    assert "Midnight Snack Risk" in result
+    assert "Low" in result
+
+
+def test_midnight_snack_risk_critical():
+    result = midnight_snack_risk(hours_awake=20, self_control=1)
+    assert isinstance(result, str)
+    assert "Critical" in result
+    assert "hours_awake=20" in result
+
+
+def test_midnight_snack_risk_invalid_inputs():
+    with pytest.raises(ValueError):
+        midnight_snack_risk(hours_awake=-1, self_control=5)
+    with pytest.raises(ValueError):
+        midnight_snack_risk(hours_awake=25, self_control=5)
+    with pytest.raises(TypeError):
+        midnight_snack_risk(hours_awake="3", self_control=5)
+
+
+"""
+Testing for snack_aura_reading
+"""
+
+
+def test_snack_aura_reading_stressed_example_shape():
+    result = snack_aura_reading(
+        current_emotion="stressed",
+        favorite_flavor="Flamin' Hot Cheetos",
+    )
+    assert isinstance(result, str)
+    assert result.startswith("Your aura is")
+    assert "You must consume" in result
+    assert "Flamin' Hot Cheetos" in result
+
+
+def test_snack_aura_reading_invalid_emotion():
+    with pytest.raises(ValueError):
+        snack_aura_reading(current_emotion="angry", favorite_flavor="chips")
+
+
+def test_snack_aura_reading_type_errors():
+    with pytest.raises(TypeError):
+        snack_aura_reading(current_emotion=123, favorite_flavor="chips")
+    with pytest.raises(TypeError):
+        snack_aura_reading(current_emotion="happy", favorite_flavor=5)
