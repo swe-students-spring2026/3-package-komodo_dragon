@@ -109,3 +109,78 @@ def snack_prophecy(day, hunger_level):
         "sunday": "Comfort food energy surrounds you.",
     }
     return f"{day.capitalize()} prophecy: {day_prophecies[day]} {hunger_message}"
+
+
+
+def snack_vibe(weather, mood):
+    if not isinstance(weather, str) or not isinstance(mood, str):
+        raise TypeError("Inputs must be strings")
+
+    weather = weather.strip().lower()
+    mood = mood.strip().lower()
+
+    weather_map = {
+        "rainy": ["hot chocolate + cookies"],
+        "sunny": ["ice cream"],
+        "cloudy": ["coffee + muffin"],
+        "cold": ["hot cocoa"],
+    }
+
+    mood_map = {
+        "happy": ["celebratory snacks"],
+        "sad": ["comfort food"],
+        "stressed": ["light snacks"],
+        "bored": ["random snacks"],
+    }
+
+    if weather not in weather_map:
+        raise ValueError("Invalid weather")
+
+    if mood not in mood_map:
+        raise ValueError("Invalid mood")
+
+    return f"Vibe: {mood_map[mood][0]} with {weather_map[weather][0]}"
+
+
+def calorie_denial(snack, quantity):
+    if not isinstance(snack, str):
+        raise TypeError("snack must be a string")
+    if not isinstance(quantity, int):
+        raise TypeError("quantity must be an integer")
+
+    if quantity <= 0:
+        raise ValueError("quantity must be positive")
+
+    if quantity <= 2:
+        level = "barely counts 😌"
+    elif quantity <= 5:
+        level = "we're still okay 😅"
+    else:
+        level = "no regrets 🔥"
+
+    return f"{quantity} {snack}(s): {level}"
+
+
+def snack_compatibility(snack1, snack2):
+    if not isinstance(snack1, str) or not isinstance(snack2, str):
+        raise TypeError("Inputs must be strings")
+
+    snack1 = snack1.lower().strip()
+    snack2 = snack2.lower().strip()
+
+    pairings = {
+        "chips": ["salsa", "dip"],
+        "cookies": ["milk", "coffee"],
+        "pizza": ["soda", "beer"],
+    }
+
+    if snack1 == snack2:
+        return "Perfect match 💯"
+
+    if snack1 in pairings and snack2 in pairings[snack1]:
+        return "Great pairing 🔥"
+
+    if snack2 in pairings and snack1 in pairings[snack2]:
+        return "Great pairing 🔥"
+
+    return "Unusual combo 🤔"
