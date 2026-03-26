@@ -2,7 +2,7 @@ import pytest
 from snackoracle import recommend_snack
 from snackoracle import snack_prophecy
 from snackoracle import snack_vibe, calorie_denial, snack_compatibility, midnight_snack_risk, snack_aura_reading
-
+from snackoracle import calorie_denial
 '''
  Testing for Recommend Snack Tests Bellow
 '''
@@ -169,3 +169,41 @@ def test_snack_aura_reading_type_errors():
         snack_aura_reading(current_emotion=123, favorite_flavor="chips")
     with pytest.raises(TypeError):
         snack_aura_reading(current_emotion="happy", favorite_flavor=5)
+        
+
+def test_calorie_denial_one_serving():
+    result = calorie_denial("chips", 1)
+    assert isinstance(result, str)
+    assert "chips" in result
+    assert "health decision" in result
+
+
+def test_calorie_denial_medium_quantity():
+    result = calorie_denial("cookies", 3)
+    assert isinstance(result, str)
+    assert "cookies" in result
+    assert "we're still okay" in result
+
+
+def test_calorie_denial_large_quantity():
+    result = calorie_denial("brownies", 6)
+    assert isinstance(result, str)
+    assert "brownies" in result
+    assert "best not to do the math" in result
+
+
+def test_calorie_denial_invalid_quantity():
+    with pytest.raises(ValueError):
+        calorie_denial("chips", 0)
+
+
+def test_calorie_denial_empty_snack():
+    with pytest.raises(ValueError):
+        calorie_denial("   ", 2)
+
+
+def test_calorie_denial_wrong_types():
+    with pytest.raises(TypeError):
+        calorie_denial(5, 2)
+    with pytest.raises(TypeError):
+        calorie_denial("chips", "three")
