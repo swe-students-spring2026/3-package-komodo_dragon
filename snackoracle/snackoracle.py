@@ -222,7 +222,11 @@ def midnight_snack_risk(hours_awake, self_control):
         risk_label = "Critical"
         advice = "Midnight snack emergency. Set a snack plan now."
 
-    return (f"Midnight Snack Risk: {risk_label}. ")
+    return (
+        f"Midnight Snack Risk: {risk_label}. "
+        f"hours_awake={hours_awake}, self_control={self_control}. "
+        f"{advice}"
+    )
 
 """
 Reads user's aura based on their current emotion and favorite flavor
