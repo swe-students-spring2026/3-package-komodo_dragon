@@ -6,7 +6,7 @@ def recommend_snack(mood, crunch_level):
     '''
     Recomends a snack based on mood and crunch
     
-    Enter as params 
+    Enter
     crunch int 1-10 crunch level 10 is most crunchy
     mood string : happy sad stressed sleepy bored
               
@@ -68,12 +68,6 @@ def recommend_snack(mood, crunch_level):
 def snack_prophecy(day, hunger_level):
     """
     Gives a mystical snack prophecy based on the day and hunger level 
-
-    Takes in 
-    day string: Day of the week.
-    hunger_level int: Hunger level from 1 to 10.
-
-    Returns a string A snack prophecy.
     """
     if not isinstance(day, str):
         raise TypeError("day must be a string")
