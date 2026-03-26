@@ -106,3 +106,16 @@ These steps work on **Windows, macOS, and Linux** as long as Python 3.10+ is ins
 - [abirmahmood6](https://github.com/abirmahmood6)
 - [rohanmalhotra0](https://github.com/rohanmalhotra0)
 - [KarenMazaDelgado](https://github.com/KarenMazaDelgado)
+
+
+# To install and use the published package (easiest for end-users):
+
+Then, in Python code, import and use it (e.g., from snackoracle import predict_snack_vibe).
+
+To develop/modify the code (for team members contributing):
+
+Clone the repo.
+Set up the environment: pipenv install (installs dependencies from Pipfile).
+Run tests: pipenv run pytest or pipenv run python -m pytest.
+Build locally if needed: pipenv run python -m build.
+To run the example: pipenv run python example.py.
