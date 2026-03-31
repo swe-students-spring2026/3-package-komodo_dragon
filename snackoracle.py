@@ -1,5 +1,7 @@
 import hashlib
 import random
+import argparse
+import sys
 
 
 def recommend_snack(mood, crunch_level):
@@ -278,3 +280,76 @@ def snack_aura_reading(current_emotion, favorite_flavor):
         f"You must consume {flavor}"
         f"Snack energy assigned: {energy}."
     )
+
+
+def build_cli_parser():
+    parser = argparse.ArgumentParser(
+        prog="snackoracle",
+        description="Snack Oracle: run snack predictions from the command line.",
+    )
+    sub = parser.add_subparsers(dest="command", required=True)
+
+    p_recommend = sub.add_parser("recommend", help="Recommend a snack.")
+    p_recommend.add_argument("--mood", required=True, help="happy|sad|stressed|sleepy|bored")
+    p_recommend.add_argument("--crunch-level", required=True, type=int, help="1-10")
+
+    p_prophecy = sub.add_parser("prophecy", help="Get a snack prophecy.")
+    p_prophecy.add_argument("--day", required=True, help="monday...sunday")
+    p_prophecy.add_argument("--hunger-level", required=True, type=int, help="1-10")
+
+    p_vibe = sub.add_parser("vibe", help="Get a snack vibe.")
+    p_vibe.add_argument("--weather", required=True, help="rainy|sunny|cloudy|cold")
+    p_vibe.add_argument("--mood", required=True, help="happy|sad|stressed|bored")
+
+    p_denial = sub.add_parser("denial", help="Calculate calorie denial level.")
+    p_denial.add_argument("--snack", required=True, help="Snack name")
+    p_denial.add_argument("--quantity", required=True, type=int, help="Positive integer")
+
+    p_compat = sub.add_parser("compat", help="Check snack compatibility.")
+    p_compat.add_argument("--snack1", required=True, help="First snack")
+    p_compat.add_argument("--snack2", required=True, help="Second snack")
+
+    p_risk = sub.add_parser("risk", help="Estimate midnight snack risk.")
+    p_risk.add_argument("--hours-awake", required=True, type=int, help="0-24")
+    p_risk.add_argument("--self-control", required=True, type=int, help="1-10")
+
+    p_aura = sub.add_parser("aura", help="Read snack aura.")
+    p_aura.add_argument("--current-emotion", required=True, help="happy|sad|stressed|sleepy|bored")
+    p_aura.add_argument("--favorite-flavor", required=True, help="Your favorite snack flavor")
+
+    return parser
+
+
+def main(argv=None):
+    """
+    Command-line interface entrypoint
+
+    ex. python -m snackoracle risk --hours-awake 12 --self-control 3
+    """
+    parser = build_cli_parser()
+    args = parser.parse_args(argv)
+
+    if args.command == "recommend":
+        out = recommend_snack(args.mood, args.crunch_level)
+    elif args.command == "prophecy":
+        out = snack_prophecy(args.day, args.hunger_level)
+    elif args.command == "vibe":
+        out = snack_vibe(args.weather, args.mood)
+    elif args.command == "denial":
+        out = calorie_denial(args.snack, args.quantity)
+    elif args.command == "compat":
+        out = snack_compatibility(args.snack1, args.snack2)
+    elif args.command == "risk":
+        out = midnight_snack_risk(args.hours_awake, args.self_control)
+    elif args.command == "aura":
+        out = snack_aura_reading(args.current_emotion, args.favorite_flavor)
+    else:
+        parser.error("Unknown command")
+        return 2
+
+    print(out)
+    return 0 #success
+
+
+if __name__ == "__main__":
+    main()
