@@ -1,5 +1,6 @@
 import hashlib
 import random
+from collections import Counter
 
 
 def recommend_snack(mood, crunch_level):
@@ -281,4 +282,81 @@ def snack_aura_reading(current_emotion, favorite_flavor):
         f"Your aura is {aura_descriptor} {aura_word} today. "
         f"You must consume {flavor} "
         f"Snack energy assigned: {energy}."
+    )
+
+
+def snack_journal_summary(entries):
+    """
+    Summarize a list of snack journal entries.
+
+    Each entry must be a dict with:
+    - snack (str): snack name
+    - quantity (int): servings eaten, must be > 0
+    - mood (str): mood label
+    """
+    if not isinstance(entries, list):
+        raise TypeError("entries must be a list")
+
+    if len(entries) == 0:
+        return "Snack Journal: 0 entries. No snacks logged yet."
+
+    normalized_entries = []
+    for idx, entry in enumerate(entries, start=1):
+        if not isinstance(entry, dict):
+            raise TypeError(f"entry {idx} must be a dictionary")
+
+        required_keys = {"snack", "quantity", "mood"}
+        missing = required_keys - set(entry.keys())
+        if missing:
+            missing_text = ", ".join(sorted(missing))
+            raise ValueError(f"entry {idx} is missing keys: {missing_text}")
+
+        snack = entry["snack"]
+        quantity = entry["quantity"]
+        mood = entry["mood"]
+
+        if not isinstance(snack, str):
+            raise TypeError(f"entry {idx} snack must be a string")
+        if not isinstance(quantity, int):
+            raise TypeError(f"entry {idx} quantity must be an integer")
+        if not isinstance(mood, str):
+            raise TypeError(f"entry {idx} mood must be a string")
+
+        snack = snack.strip().lower()
+        mood = mood.strip().lower()
+        if snack == "":
+            raise ValueError(f"entry {idx} snack must not be empty")
+        if mood == "":
+            raise ValueError(f"entry {idx} mood must not be empty")
+        if quantity <= 0:
+            raise ValueError(f"entry {idx} quantity must be positive")
+
+        normalized_entries.append(
+            {"snack": snack, "quantity": quantity, "mood": mood}
+        )
+
+    entry_count = len(normalized_entries)
+    total_servings = sum(item["quantity"] for item in normalized_entries)
+
+    snack_counts = Counter(item["snack"] for item in normalized_entries)
+    mood_counts = Counter(item["mood"] for item in normalized_entries)
+
+    top_snack = sorted(snack_counts.items(), key=lambda pair: (-pair[1], pair[0]))[0][0]
+    mood_text = ", ".join(
+        f"{mood}={count}" for mood, count in sorted(mood_counts.items())
+    )
+
+    avg_servings = total_servings / entry_count
+    if avg_servings <= 1.5:
+        energy = "low"
+    elif avg_servings <= 3.0:
+        energy = "medium"
+    else:
+        energy = "high"
+
+    return (
+        f"Snack Journal Summary: entries={entry_count}, total_servings={total_servings}. "
+        f"Top snack: {top_snack}. "
+        f"Moods: {mood_text}. "
+        f"Snack energy: {energy}."
     )
