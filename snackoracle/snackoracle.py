@@ -143,17 +143,23 @@ def calorie_denial(snack, quantity):
     if not isinstance(quantity, int):
         raise TypeError("quantity must be an integer")
 
-    if quantity <= 0:
-        raise ValueError("quantity must be positive")
+    snack = snack.strip()
+    if snack == "":
+        raise ValueError("snack cannot be empty")
 
-    if quantity <= 2:
-        level = "barely counts 😌"
+    if quantity < 1:
+        raise ValueError("quantity must be at least 1")
+
+    if quantity == 1:
+        level = "basically a health decision."
+    elif quantity <= 3:
+        level = "we're still okay."
     elif quantity <= 5:
-        level = "we're still okay 😅"
+        level = "probably still emotionally necessary."
     else:
-        level = "no regrets 🔥"
+        level = "best not to do the math."
 
-    return f"{quantity} {snack}(s): {level}"
+    return f"You ate {quantity} serving(s) of {snack}, but it was {level}"
 
 
 def snack_compatibility(snack1, snack2):
@@ -273,35 +279,6 @@ def snack_aura_reading(current_emotion, favorite_flavor):
 
     return (
         f"Your aura is {aura_descriptor} {aura_word} today. "
-        f"You must consume {flavor}"
+        f"You must consume {flavor} "
         f"Snack energy assigned: {energy}."
     )
-    
-
-def calorie_denial(snack, quantity):
-    """
-    Gives a silly calorie excuse based on snack and quantity.
-    """
-    if not isinstance(snack, str):
-        raise TypeError("snack must be a string")
-
-    if not isinstance(quantity, int):
-        raise TypeError("quantity must be an integer")
-
-    snack = snack.strip()
-    if snack == "":
-        raise ValueError("snack cannot be empty")
-
-    if quantity < 1:
-        raise ValueError("quantity must be at least 1")
-
-    if quantity == 1:
-        excuse = "basically a health decision."
-    elif quantity <= 3:
-        excuse = "we're still okay."
-    elif quantity <= 5:
-        excuse = "probably still emotionally necessary."
-    else:
-        excuse = "best not to do the math."
-
-    return f"You ate {quantity} serving(s) of {snack}, but it was {excuse}"
