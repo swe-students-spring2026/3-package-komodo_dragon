@@ -104,7 +104,7 @@ These steps work on **Windows, macOS, and Linux** as long as Python 3.10+ is ins
 
 - [CHEology](https://github.com/CHEology)
 - [abirmahmood6](https://github.com/abirmahmood6)
-- [rohanmalhotra0](https://github.com/rohanmalhotra0)
+- Rohan Malhotra [rohanmalhotra0](https://github.com/rohanmalhotra0)
 - [KarenMazaDelgado](https://github.com/KarenMazaDelgado)
 
 
